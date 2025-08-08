@@ -13,3 +13,154 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  recipes     Recipe[]
+  inventory   Inventory[]
+  mealPlans   MealPlan[]
+  shoppingLists ShoppingList[]
+
+  @@map("users")
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  instructions String
+  prepTime    Int?     // in minutes
+  cookTime    Int?     // in minutes
+  servings    Int      @default(1)
+  category    String?
+  tags        String[] // Array of tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign Keys
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relations
+  recipeIngredients RecipeIngredient[]
+  mealPlans        MealPlan[]
+
+  @@map("recipes")
+}
+
+model Ingredient {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  category  String?  // e.g., "Dairy", "Meat", "Vegetables"
+  unit      String   // e.g., "cups", "grams", "pieces"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  recipeIngredients RecipeIngredient[]
+  inventory        Inventory[]
+  shoppingListItems ShoppingListItem[]
+
+  @@map("ingredients")
+}
+
+model RecipeIngredient {
+  id       String @id @default(cuid())
+  quantity Float
+  unit     String
+  notes    String?
+
+  // Foreign Keys
+  recipeId     String
+  ingredientId String
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  // Composite unique constraint
+  @@unique([recipeId, ingredientId])
+  @@map("recipe_ingredients")
+}
+
+model Inventory {
+  id             String    @id @default(cuid())
+  quantity       Float
+  unit           String
+  expirationDate DateTime?
+  purchaseDate   DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Foreign Keys
+  userId       String
+  ingredientId String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@map("inventory")
+}
+
+model MealPlan {
+  id       String    @id @default(cuid())
+  date     DateTime
+  mealType MealType
+  servings Int       @default(1)
+  notes    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  userId   String
+  recipeId String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@map("meal_plans")
+}
+
+model ShoppingList {
+  id        String   @id @default(cuid())
+  name      String   @default("Shopping List")
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relations
+  items ShoppingListItem[]
+
+  @@map("shopping_lists")
+}
+
+model ShoppingListItem {
+  id        String   @id @default(cuid())
+  quantity  Float
+  unit      String
+  purchased Boolean  @default(false)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  shoppingListId String
+  ingredientId   String
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  ingredient     Ingredient   @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@map("shopping_list_items")
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
