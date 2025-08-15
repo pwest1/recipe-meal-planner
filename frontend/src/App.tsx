@@ -27,12 +27,11 @@ function App() {
         console.log('✅ User is authenticated, fetching profile...');
         try {
           console.log('🔑 Getting access token...');
-          const token = await getAccessTokenSilently({ authorizationParams: {
-          audience: 'https://api.recipe-planner.com' }});
+          const token = await getAccessTokenSilently();
           console.log('✅ Token received:', token ? 'Yes' : 'No');
           console.log('🌐 Making API call...');
 
-          const response = await fetch('http://localhost:5000/api/users/profile', {
+          const response = await fetch('http://localhost:5000/api/health', {
             headers: {
               Authorization: `Bearer ${token}`
             }
