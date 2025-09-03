@@ -1,11 +1,24 @@
-import api from './api'
+import { api } from './api';
+import type { Recipe, CreateRecipeData, UpdateRecipeData } from '../types';
 
-export const getRecipe = async (id:string, accessToken: string) => {
-    const response = await api.get('/recipes/${id}', accessToken);
-    return response.data;
-}
+export const recipeService = {
+  async getRecipes(token: string): Promise<Recipe[]> {
+    return api.get('/api/recipes', token);
+  },
 
-export const getRecipes = async (accessToken: string) => {
-  const response = await api.get('/recipes', accessToken);
-  return response.data;
+  async getRecipe(id: string, token: string): Promise<Recipe> {
+    return api.get(`/api/recipes/${id}`, token);
+  },
+
+  async createRecipe(data: CreateRecipeData, token: string): Promise<Recipe> {
+    return api.post('/api/recipes', data, token);
+  },
+
+  async updateRecipe(id: string, data: UpdateRecipeData, token: string): Promise<Recipe> {
+    return api.put(`/api/recipes/${id}`, data, token);
+  },
+
+  async deleteRecipe(id: string, token: string): Promise<{ message: string }> {
+    return api.delete(`/api/recipes/${id}`, token);
+  }
 };
