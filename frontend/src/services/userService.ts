@@ -10,7 +10,7 @@ export interface UserProfile {
 
 export const userService = {
   async fetchProfile(token: string): Promise<UserProfile> {
-    const response = await api.get('/api/health', token);
-    return response.user;
+    const response = await api.get('/api/auth/profile', token);
+    return response;
   }
 };
