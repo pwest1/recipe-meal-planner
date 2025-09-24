@@ -130,114 +130,101 @@ export const AuthenticatedView = () => {
     setEditingIngredient(null);
   };
 
-  const renderNavigation = () => (
-    <nav className="bg-white shadow-sm border-b mb-6">
-      <div className="flex justify-between items-center px-6 py-4">
-        <div className="flex space-x-6">
-          <button
-            onClick={showDashboard}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-              currentView === 'dashboard' 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            <Home size={18} />
-            Dashboard
-          </button>
-          <button
-            onClick={showRecipes}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-              currentView === 'recipes' 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            <ChefHat size={18} />
-            Recipes
-          </button>
-          <button
-            onClick={showIngredients}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-              currentView === 'ingredients' 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            <Package size={18} />
-            Ingredients
-          </button>
-          <button
-            onClick={showProfile}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-              currentView === 'profile' 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            <User size={18} />
-            Profile
-          </button>
-        </div>
-        <button
-          onClick={logout}
-          className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
-      </div>
-    </nav>
-  );
+const renderNavigation = () => (
+  <nav className="h-screen sticky top-0 flex flex-col items-center p-4 w-20 bg-neutral-50 border-r border-neutral-500">
+    <div className="flex flex-col space-y-2 mb-auto">
+      <button
+        onClick={showDashboard}
+        className={currentView === 'dashboard' ? 'nav-item-active' : 'nav-item'}
+        title="Dashboard" 
+      >
+        <Home size={24} />
+      </button>
+      <button
+        onClick={showRecipes}
+        className={currentView === 'recipes' ? 'nav-item-active' : 'nav-item'}
+        title="Recipes" 
+      >
+        <ChefHat size={24} />
+      </button>
+      <button
+        onClick={showIngredients}
+        className={currentView === 'ingredients' ? 'nav-item-active' : 'nav-item'}
+        title="Ingredients" 
+      >
+        <Package size={24} />
+      </button>
+      <button
+        onClick={showProfile}
+        className={currentView === 'profile' ? 'nav-item-active' : 'nav-item'}
+        title="Profile" 
+      >
+        <User size={24} />
+      </button>
+      
+    </div>
 
+    <button
+      onClick={logout}
+      className="btn-ghost text-red-600 hover:text-red-700 hover:bg-red-50 mt-auto"
+      title="Logout" 
+    >
+      <LogOut size={24} />
+    </button>
+  </nav>
+);
   const renderDashboard = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-2xl font-bold mb-4">Welcome back, {profile?.username || user?.name || 'Chef'}!</h2>
-        <p className="text-gray-600 mb-6">Manage your recipes and ingredients all in one place.</p>
+    <div className="space-y-8">
+      <div className="card p-8 animate-fade-in">
+        <h2 className="text-3xl font-bold mb-2 text-balance ">
+          Welcome back, {profile?.username || user?.name || 'Chef'}! 
+        </h2>
+        <p className="text-neutral-600 text-lg mb-8 text-balance">
+          Manage your recipes and ingredients all in one place.
+        </p>
         
         {profileError && (
-          <div className="bg-red-50 text-red-600 p-3 rounded mb-4">
+          <div className="status-error p-4 text-red-300 rounded-xl mb-6">
             {profileError}
           </div>
         )}
 
         {profile && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-blue-50 p-4 rounded-lg text-center">
-              <ChefHat className="mx-auto mb-2 text-blue-600" size={32} />
-              <div className="text-2xl font-bold text-blue-900">{profile._count?.recipes || 0}</div>
-              <div className="text-blue-700">Recipes</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="card-hover p-6 text-center bg-gradient-to-br from-primary-50 to-primary-100">
+              <ChefHat className="mx-auto mb-4 text-primary-600" size={40} />
+              <div className="text-3xl font-bold text-primary-900 mb-1">{profile._count?.recipes || 0}</div>
+              <div className="text-primary-700 font-medium">Recipes</div>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg text-center">
-              <Package className="mx-auto mb-2 text-green-600" size={32} />
-              <div className="text-2xl font-bold text-green-900">{profile._count?.inventory || 0}</div>
-              <div className="text-green-700">Inventory Items</div>
+            <div className="card-hover p-6 text-center bg-gradient-to-br from-accent-50 to-accent-100">
+              <Package className="mx-auto mb-4 text-accent-600" size={40} />
+              <div className="text-3xl font-bold text-accent-900 mb-1">{profile._count?.inventory || 0}</div>
+              <div className="text-accent-700 font-medium">Inventory Items</div>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg text-center">
-              <User className="mx-auto mb-2 text-purple-600" size={32} />
-              <div className="text-2xl font-bold text-purple-900">{profile._count?.mealPlans || 0}</div>
-              <div className="text-purple-700">Meal Plans</div>
+            <div className="card-hover p-6 text-center bg-gradient-to-br from-purple-50 to-purple-100">
+              <User className="mx-auto mb-4 text-purple-600" size={40} />
+              <div className="text-3xl font-bold text-purple-900 mb-1">{profile._count?.mealPlans || 0}</div>
+              <div className="text-purple-700 font-medium">Meal Plans</div>
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <button
             onClick={showRecipes}
-            className="p-6 text-left bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors"
+            className="group p-8 text-left border border-slate-500 bg-gradient-to-br from-primary-500 to-primary-600 text-blue-600 rounded-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 hover:scale-105 hover:shadow-strong"
           >
-            <ChefHat size={24} className="mb-3" />
-            <h3 className="text-xl font-semibold mb-2">My Recipes</h3>
-            <p className="opacity-90">Create, edit, and organize your favorite recipes</p>
+            <ChefHat size={32} className="mb-4 group-hover:animate-bounce-subtle" />
+            <h3 className="text-2xl font-bold mb-3">My Recipes</h3>
+            <p className="text-primary-100 text-lg">Create, edit, and organize your favorite recipes</p>
           </button>
           <button
             onClick={showIngredients}
-            className="p-6 text-left bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-colors"
+            className="group p-8 text-left bg-gradient-to-br border border-slate-500 from-accent-500 to-accent-600 text-blue-600 rounded-2xl hover:from-accent-600 hover:to-accent-700 transition-all duration-300 hover:scale-105 hover:shadow-strong"
           >
-            <Package size={24} className="mb-3" />
-            <h3 className="text-xl font-semibold mb-2">Ingredients</h3>
-            <p className="opacity-90">Manage your ingredient database and inventory</p>
+            <Package size={32} className="mb-4 group-hover:animate-bounce-subtle" />
+            <h3 className="text-2xl font-bold mb-3">Ingredients</h3>
+            <p className="text-accent-100 text-lg">Manage your ingredient database and inventory</p>
           </button>
         </div>
       </div>
@@ -245,21 +232,25 @@ export const AuthenticatedView = () => {
   );
 
   const renderProfile = () => (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">Profile Information</h2>
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <div className="mt-1 text-gray-900">{user?.email}</div>
+    <div className="card p-8 animate-fade-in">
+      <h2 className="text-3xl font-bold mb-8 gradient-text">Profile Information</h2>
+      <div className="space-y-6">
+        <div className="p-4 bg-neutral-50 rounded-xl">
+          <label className="block text-sm font-semibold text-neutral-700 mb-2">Email Address</label>
+          <div className="text-lg text-neutral-900 font-medium">{user?.email}</div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Username</label>
-          <div className="mt-1 text-gray-900">{profile?.username}</div>
+        <div className="p-4 bg-neutral-50 rounded-xl">
+          <label className="block text-sm font-semibold text-neutral-700 mb-2">Username</label>
+          <div className="text-lg text-neutral-900 font-medium">{profile?.username}</div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Member Since</label>
-          <div className="mt-1 text-gray-900">
-            {profile && new Date(profile.createdAt || '').toLocaleDateString()}
+        <div className="p-4 bg-neutral-50 rounded-xl">
+          <label className="block text-sm font-semibold text-neutral-700 mb-2">Member Since</label>
+          <div className="text-lg text-neutral-900 font-medium">
+            {profile && new Date(profile.createdAt || '').toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
           </div>
         </div>
       </div>
@@ -325,11 +316,18 @@ export const AuthenticatedView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+  <div className="flex min-h-screen">
+    {/* Sidebar Navigation (fixed width) */}
+    <div className="w-64 flex-shrink-0">
       {renderNavigation()}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    </div>
+
+    {/* Main Content Area (takes remaining space) */}
+    <main className="flex-1 p-4 sm:p-6 lg:p-8">
+      <div className="animate-fade-in">
         {renderContent()}
       </div>
-    </div>
-  );
+    </main>
+  </div>
+);
 };

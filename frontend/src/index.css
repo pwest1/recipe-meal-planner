@@ -1,10 +1,88 @@
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* --- Base layer: global styles & resets --- */
 @layer base {
+  :root {
+    --color-surface: #FFF8E1;
+    --color-surface-secondary: #125597;
+    --color-border: #e2e8f0;
+    --color-text-primary: #120f2a;
+    --color-text-secondary: #475569;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply antialiased;
+   
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   button,
   [role="button"] {
-    @apply cursor-pointer;
+    @apply cursor-pointer transition-all duration-200;
+  }
+
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
+}
+
+/* --- Components layer: reusable classes & animations --- */
+@layer components {
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .nav-item,
+  .nav-item-active {
+    @apply flex justify-center items-center transition-all duration-200;
+    width: 72px;
+    height: 72px;
+    border-radius: 0.75rem;
+  }
+
+  .nav-item:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+
+  .nav-item-active {
+    background-color: #4f46e5;
   }
 }
