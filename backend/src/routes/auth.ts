@@ -1,13 +1,13 @@
 import express from 'express';
 import { prisma } from '../app';
-import { jwtCheck } from '../middleware/auth';
+import { jwtCheck, debugJWT, jwtErrorHandler } from '../middleware/auth';
 
 const router = express.Router();
 
 // GET /api/auth/profile - Get or create user profile from Auth0 data
 router.get('/profile', jwtCheck, async (req, res) => {
   try {
-    const auth0Id = (req as any).auth?.sub;
+    const auth0Id = (req as any).auth?.payload?.sub;
     if (!auth0Id) {
       return res.status(401).json({ error: 'User not authenticated' });
     }

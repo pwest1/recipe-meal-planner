@@ -21,11 +21,10 @@ export interface UpdateUserProfileData {
 }
 
 export const userService = {
-  // Kept this one and removed the duplicate 'getProfile'
   async fetchProfile(token: string): Promise<UserProfile> {
     const response = await api.get('/api/auth/profile', token);
     return response;
-  }, // <-- I added the missing comma here
+  },
 
   async updateProfile(data: UpdateUserProfileData, token: string): Promise<UserProfile> {
     return api.put('/api/auth/profile', data, token);

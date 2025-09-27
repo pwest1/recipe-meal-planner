@@ -1,3 +1,4 @@
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 interface ApiOptions extends RequestInit {
@@ -23,20 +24,21 @@ export const api = {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({
-        message: `HTTP error! status: ${response.status}`
-      }));
-      throw new Error(error.message || `Request failed: ${response.status}`);
-      let errorData;
+      let error;
       try {
-        errorData = await response.json();
+        error = await response.json();
       } catch (e) {
-        throw new Error(`HTTP error! Status: ${response.status}. Failed to parse error response.`);
+        error = { message: `Request failed with status: ${response.status}` };
       }
-      throw new Error(errorData.message || `Request failed with status: ${response.status}`);
+      throw new Error(error.message || `HTTP error! status: ${response.status}`);
     }
 
-    return response.json();
+    
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return response.json();
+    }
+    return;
   },
 
   get(endpoint: string, token?: string) {

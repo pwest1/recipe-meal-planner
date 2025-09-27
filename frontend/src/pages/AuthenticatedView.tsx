@@ -28,8 +28,10 @@ export const AuthenticatedView = () => {
   const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
 
   useEffect(() => {
+    console.log('🔍 Profile useEffect triggered at:', new Date().toISOString());
     const fetchProfile = async () => {
       try {
+        
         const token = await getToken();
         const userProfile = await userService.fetchProfile(token);
         setProfile(userProfile);
@@ -38,12 +40,14 @@ export const AuthenticatedView = () => {
         console.error('Error fetching profile:', error);
         setProfileError('Failed to load profile data');
       }
+     
     };
 
     fetchProfile();
-  }, [getToken]);
+  }, []);
 
   const refreshProfile = async () => {
+    console.log('🔍 Profile useEffect triggered at:', new Date().toISOString());
     try {
       const token = await getToken();
       const userProfile = await userService.fetchProfile(token);

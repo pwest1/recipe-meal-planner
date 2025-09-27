@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 
+
 export const useAuth = () => {
   const { 
     isAuthenticated, 
@@ -35,7 +36,8 @@ export const useAuth = () => {
     try {
       return await getAccessTokenSilently({
         authorizationParams: {
-          audience: 'https://api.recipe-planner.com'
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE
+
         }
       });
     } catch (error) {
