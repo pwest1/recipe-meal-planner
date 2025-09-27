@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../auth/useAuth';
 import { recipeService } from '../../services/recipeService';
 import type { Recipe, RecipeFilters } from '../../types';
 import { Clock, Users, Search, Plus, Eye, Edit2, Trash2 } from 'lucide-react';

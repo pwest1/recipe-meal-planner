@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../auth/useAuth';
 import { recipeService } from '../../services/recipeService';
 import { ingredientService } from '../../services/ingredientService';
 import type { Recipe, CreateRecipeData, Ingredient } from '../../types';

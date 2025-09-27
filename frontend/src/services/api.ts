@@ -27,6 +27,13 @@ export const api = {
         message: `HTTP error! status: ${response.status}`
       }));
       throw new Error(error.message || `Request failed: ${response.status}`);
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        throw new Error(`HTTP error! Status: ${response.status}. Failed to parse error response.`);
+      }
+      throw new Error(errorData.message || `Request failed with status: ${response.status}`);
     }
 
     return response.json();

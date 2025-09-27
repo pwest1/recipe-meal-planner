@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../auth/useAuth';
 import { ingredientService } from '../../services/ingredientService';
 import type { Ingredient, CreateIngredientData } from '../../types';
 import { Package, Save, X } from 'lucide-react';

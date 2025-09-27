@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../auth/useAuth';
 import { ingredientService } from '../../services/ingredientService';
 import type { Ingredient, IngredientFilters } from '../../types';
 import { Search, Plus, Edit2, Trash2, Package } from 'lucide-react';

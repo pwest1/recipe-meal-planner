@@ -3,12 +3,9 @@ import type { Ingredient, CreateIngredientData, UpdateIngredientData, Ingredient
 
 export const ingredientService = {
   async getIngredients(token: string, filters?: IngredientFilters): Promise<Ingredient[]> {
-    const queryParams = new URLSearchParams();
-    if (filters?.search) queryParams.append('search', filters.search);
-    if (filters?.category) queryParams.append('category', filters.category);
-    
-    const endpoint = queryParams.toString() 
-      ? `/api/ingredients?${queryParams.toString()}`
+    const queryParams = new URLSearchParams(filters as Record<string, string>).toString();
+    const endpoint = queryParams
+      ? `/api/ingredients?${queryParams}`
       : '/api/ingredients';
     
     return api.get(endpoint, token);

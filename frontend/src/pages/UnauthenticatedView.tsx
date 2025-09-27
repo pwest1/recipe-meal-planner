@@ -1,4 +1,4 @@
-import { useAuth } from './useAuth';
+import { useAuth } from '../auth/useAuth';
 
 export const UnauthenticatedView = () => {
   const { error, login, signup } = useAuth();

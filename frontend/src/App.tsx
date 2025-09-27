@@ -1,7 +1,7 @@
-import { useAuth } from './components/auth/useAuth';
+import { useAuth } from './auth/useAuth';
 import { LoadingSpinner } from './components/common/LoadingSpinner';
-import { AuthenticatedView } from './components/auth/AuthenticatedView';
-import { UnauthenticatedView } from './components/auth/UnauthenticatedView';
+import { AuthenticatedView } from './pages/AuthenticatedView';
+import { UnauthenticatedView } from './pages/UnauthenticatedView';
 
 function App() {
   const { isLoading, isAuthenticated } = useAuth();

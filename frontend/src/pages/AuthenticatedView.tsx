@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from './useAuth';
-import { userService, type UserProfile } from '../../services/userService';
-import { RecipeList } from '../recipes/RecipeList';
-import { RecipeForm } from '../recipes/RecipeForm';
-import { RecipeDetail } from '../recipes/RecipeDetail';
-import { IngredientBrowser } from '../ingredients/IngredientBrowser';
-import { IngredientForm } from '../ingredients/IngredientForm';
-import type { Recipe, Ingredient } from '../../types';
+import { useAuth } from '../auth/useAuth';
+import { userService, type UserProfile } from '../services/userService';
+import { RecipeList } from '../components/recipes/RecipeList';
+import { RecipeForm } from '../components/recipes/RecipeForm';
+import { RecipeDetail } from '../components/recipes/RecipeDetail';
+import { IngredientBrowser } from '../components/ingredients/IngredientBrowser';
+import { IngredientForm } from '../components/ingredients/IngredientForm';
+import type { Recipe, Ingredient } from '../types';
 import { ChefHat, Package, User, LogOut, Home } from 'lucide-react';
 
 type View = 'dashboard' | 'recipes' | 'ingredients' | 'profile';
