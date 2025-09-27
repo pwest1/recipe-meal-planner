@@ -7,7 +7,8 @@ import { RecipeDetail } from '../components/recipes/RecipeDetail';
 import { IngredientBrowser } from '../components/ingredients/IngredientBrowser';
 import { IngredientForm } from '../components/ingredients/IngredientForm';
 import type { Recipe, Ingredient } from '../types';
-import { ChefHat, Package, User, LogOut, Home } from 'lucide-react';
+import { Dashboard } from './Dashboard';
+import { Sidebar } from '../components/layout/Sidebar';
 
 type View = 'dashboard' | 'recipes' | 'ingredients' | 'profile';
 type RecipeView = 'list' | 'detail' | 'form';
@@ -130,106 +131,6 @@ export const AuthenticatedView = () => {
     setEditingIngredient(null);
   };
 
-const renderNavigation = () => (
-  <nav className="h-screen sticky top-0 flex flex-col items-center p-4 w-20 bg-neutral-50 border-r border-neutral-500">
-    <div className="flex flex-col space-y-2 mb-auto">
-      <button
-        onClick={showDashboard}
-        className={currentView === 'dashboard' ? 'nav-item-active' : 'nav-item'}
-        title="Dashboard" 
-      >
-        <Home size={24} />
-      </button>
-      <button
-        onClick={showRecipes}
-        className={currentView === 'recipes' ? 'nav-item-active' : 'nav-item'}
-        title="Recipes" 
-      >
-        <ChefHat size={24} />
-      </button>
-      <button
-        onClick={showIngredients}
-        className={currentView === 'ingredients' ? 'nav-item-active' : 'nav-item'}
-        title="Ingredients" 
-      >
-        <Package size={24} />
-      </button>
-      <button
-        onClick={showProfile}
-        className={currentView === 'profile' ? 'nav-item-active' : 'nav-item'}
-        title="Profile" 
-      >
-        <User size={24} />
-      </button>
-      
-    </div>
-
-    <button
-      onClick={logout}
-      className="btn-ghost text-red-600 hover:text-red-700 hover:bg-red-50 mt-auto"
-      title="Logout" 
-    >
-      <LogOut size={24} />
-    </button>
-  </nav>
-);
-  const renderDashboard = () => (
-    <div className="space-y-8">
-      <div className="card p-8 animate-fade-in">
-        <h2 className="text-3xl font-bold mb-2 text-balance ">
-          Welcome back, {profile?.username || user?.name || 'Chef'}! 
-        </h2>
-        <p className="text-neutral-600 text-lg mb-8 text-balance">
-          Manage your recipes and ingredients all in one place.
-        </p>
-        
-        {profileError && (
-          <div className="status-error p-4 text-red-300 rounded-xl mb-6">
-            {profileError}
-          </div>
-        )}
-
-        {profile && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="card-hover p-6 text-center bg-gradient-to-br from-primary-50 to-primary-100">
-              <ChefHat className="mx-auto mb-4 text-primary-600" size={40} />
-              <div className="text-3xl font-bold text-primary-900 mb-1">{profile._count?.recipes || 0}</div>
-              <div className="text-primary-700 font-medium">Recipes</div>
-            </div>
-            <div className="card-hover p-6 text-center bg-gradient-to-br from-accent-50 to-accent-100">
-              <Package className="mx-auto mb-4 text-accent-600" size={40} />
-              <div className="text-3xl font-bold text-accent-900 mb-1">{profile._count?.inventory || 0}</div>
-              <div className="text-accent-700 font-medium">Inventory Items</div>
-            </div>
-            <div className="card-hover p-6 text-center bg-gradient-to-br from-purple-50 to-purple-100">
-              <User className="mx-auto mb-4 text-purple-600" size={40} />
-              <div className="text-3xl font-bold text-purple-900 mb-1">{profile._count?.mealPlans || 0}</div>
-              <div className="text-purple-700 font-medium">Meal Plans</div>
-            </div>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <button
-            onClick={showRecipes}
-            className="group p-8 text-left border border-slate-500 bg-gradient-to-br from-primary-500 to-primary-600 text-blue-600 rounded-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 hover:scale-105 hover:shadow-strong"
-          >
-            <ChefHat size={32} className="mb-4 group-hover:animate-bounce-subtle" />
-            <h3 className="text-2xl font-bold mb-3">My Recipes</h3>
-            <p className="text-primary-100 text-lg">Create, edit, and organize your favorite recipes</p>
-          </button>
-          <button
-            onClick={showIngredients}
-            className="group p-8 text-left bg-gradient-to-br border border-slate-500 from-accent-500 to-accent-600 text-blue-600 rounded-2xl hover:from-accent-600 hover:to-accent-700 transition-all duration-300 hover:scale-105 hover:shadow-strong"
-          >
-            <Package size={32} className="mb-4 group-hover:animate-bounce-subtle" />
-            <h3 className="text-2xl font-bold mb-3">Ingredients</h3>
-            <p className="text-accent-100 text-lg">Manage your ingredient database and inventory</p>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 
   const renderProfile = () => (
     <div className="card p-8 animate-fade-in">
@@ -260,7 +161,15 @@ const renderNavigation = () => (
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
-        return renderDashboard();
+        return (
+        <Dashboard
+          user={user}
+          profile={profile}
+          profileError={profileError}
+          onShowRecipes={showRecipes}
+          onShowIngredients={showIngredients}
+        />
+      );
       case 'recipes':
         switch (recipeView) {
           case 'list':
@@ -317,12 +226,15 @@ const renderNavigation = () => (
 
   return (
   <div className="flex min-h-screen">
-    {/* Sidebar Navigation (fixed width) */}
-    <div className="w-64 flex-shrink-0">
-      {renderNavigation()}
-    </div>
+    <Sidebar
+      currentView={currentView}
+      onShowDashboard={showDashboard}
+      onShowRecipes={showRecipes}
+      onShowIngredients={showIngredients}
+      onShowProfile={showProfile}
+      onLogout={logout}
+    />
 
-    {/* Main Content Area (takes remaining space) */}
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
       <div className="animate-fade-in">
         {renderContent()}
