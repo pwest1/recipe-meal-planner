@@ -1,4 +1,3 @@
-# recipe-meal-planner
 # RecipeRouter 
 
 RecipeRouter is a full-stack web application designed to help users organize their culinary life. From creating detailed recipes to managing a personal ingredient inventory, this app provides a clean, modern, and secure interface for all your cooking needs.
