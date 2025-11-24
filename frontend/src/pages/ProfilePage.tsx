@@ -1,8 +1,8 @@
 import type { UserProfile } from '../services/userService';
-import type { AuthUser } from '../auth/useAuth'; 
+import type { User } from "@auth0/auth0-react";
 
 interface ProfilePageProps {
-  user: AuthUser | null;
+  user: User | undefined;
   profile: UserProfile | null;
 }
 
