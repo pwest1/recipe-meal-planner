@@ -141,7 +141,7 @@ export const AuthenticatedView = () => {
       case 'dashboard':
         return (
         <Dashboard
-          user={user}
+          user={user ?? null}
           profile={profile}
           profileError={profileError}
           onShowRecipes={showRecipes}

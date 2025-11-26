@@ -1,5 +1,5 @@
-import { ChefHat, Package, User, LogOut, Home } from 'lucide-react';
-import { userService, type UserProfile } from '../services/userService';
+import { ChefHat, Package, User } from 'lucide-react';
+import { type UserProfile } from '../services/userService';
 
 
 //Define props (data and function) dashboard needs to retrieve
