@@ -14,7 +14,7 @@ function App() {
      
        
         <main className="animate-fade-in">
-           <header className="text-center mb-8 lg:mb-12">
+           <header className="text-center mb-8 lg:mb-12 pt-8 ">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-green-500 gradient-text text-balance">
             RecipeRouter
           </h1>
